@@ -14,14 +14,14 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title:
-    "Nico Assignments - Best Platform for Online Classes & Academic Support",
+    "Nick's Tutoring Hub - Expert Tutor Services & Academic Writing Support",
   description:
     "TutorHub offers the best platform for tutor services, online classes, projects, dissertations, and other related writing services. Get expert academic support today!",
   keywords:
     "tutor services, online classes, projects, dissertation, writing services, academic support",
   openGraph: {
     title:
-      "Nico Assignments - Expert Tutor Services & Academic Writing Support",
+      "Nicks Assignments - Expert Tutor Services & Academic Writing Support",
     description:
       "Find top-quality tutor services, online classes, project help, dissertation support, and writing assistance on TutorHub. Boost your academic success!",
     images: [
@@ -29,13 +29,13 @@ export const metadata: Metadata = {
         url: "https://nico-assignments.com/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "TutorHub - Academic Support Services",
+        alt: "Nick's Tutoring Hub",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nico Assignments - Premier Academic Support Services",
+    title: "Nicks Assignments - Premier Academic Support Services",
     description:
       "Discover expert tutor services, online classes, project assistance, dissertation help, and writing support. Elevate your academic journey with TutorHub!",
     images: ["https://nico-assignments.com/twitter-image.jpg"],
