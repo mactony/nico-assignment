@@ -1,62 +1,86 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/next";
+import { ThemeProvider } from "@/components/general/theme-provider";
+import { Navbar } from "@/components/general/navbar";
+import { Footer } from "@/components/general/footer";
+import { Toaster } from "@/components/ui/toaster";
 
-const geistSans = Geist({
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  weight: "100 900",
 });
-
-const geistMono = Geist_Mono({
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: "100 900",
 });
 
 export const metadata: Metadata = {
-  title:
-    "Nick's Tutoring Hub - Expert Tutor Services & Academic Writing Support",
+  metadataBase: new URL("https://nicks-tutoring-hub.com"),
+  title: {
+    default: "Nick's Tutoring Hub - Professional Academic Writing Services",
+    template: "%s | Nick's Tutoring Hub",
+  },
   description:
-    "TutorHub offers the best platform for tutor services, online classes, projects, dissertations, and other related writing services. Get expert academic support today!",
-  keywords:
-    "tutor services, online classes, projects, dissertation, writing services, academic support",
+    "Expert academic writing services including dissertations, resumes, editing, and proofreading. Quality academic support for students worldwide.",
+  keywords: [
+    "academic writing",
+    "dissertation help",
+    "resume writing",
+    "editing services",
+    "proofreading",
+    "tutoring",
+  ],
+  authors: [{ name: "Nick" }],
+  creator: "Nick",
   openGraph: {
-    title:
-      "Nicks Assignments - Expert Tutor Services & Academic Writing Support",
-    description:
-      "Find top-quality tutor services, online classes, project help, dissertation support, and writing assistance on TutorHub. Boost your academic success!",
-    images: [
-      {
-        url: "https://nico-assignments.com/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Nick's Tutoring Hub",
-      },
-    ],
+    type: "website",
+    locale: "en_US",
+    url: "https://nicks-tutoring-hub.com",
+    title: "Nick's Tutoring Hub",
+    description: "Professional Academic Writing Services",
+    siteName: "Nick's Tutoring Hub",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nicks Assignments - Premier Academic Support Services",
-    description:
-      "Discover expert tutor services, online classes, project assistance, dissertation help, and writing support. Elevate your academic journey with TutorHub!",
-    images: ["https://nico-assignments.com/twitter-image.jpg"],
+    title: "Nick's Tutoring Hub",
+    description: "Professional Academic Writing Services",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SpeedInsights />
-        {children}
-        <Analytics />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          {children}
+          <Footer />
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
