@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { formatDistance } from "date-fns";
+import { Post } from "@prisma/client";
 
 export const metadata: Metadata = {
   title: "Blog - Nick's Tutoring Hub",
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  let posts: any = [];
+  let posts: Post[] = [];
 
   try {
     posts = await prisma.post.findMany({
@@ -40,7 +41,7 @@ export default async function BlogPage() {
 
       {posts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map((post: any) => (
+          {posts.map((post) => (
             <Card key={post.id}>
               <CardHeader>
                 <CardTitle>

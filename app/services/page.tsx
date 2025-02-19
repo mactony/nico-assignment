@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Service } from "@prisma/client";
 
 export const metadata: Metadata = {
   title: "Services - Nick's Tutoring Hub",
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ServicesPage() {
-  let services: any = [];
+  let services: Service[] = [];
 
   try {
     services = await prisma.service.findMany({
@@ -38,7 +39,7 @@ export default async function ServicesPage() {
 
       {services.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service: any) => (
+          {services.map((service) => (
             <Card key={service.id}>
               <CardHeader>
                 <CardTitle>{service.title}</CardTitle>
