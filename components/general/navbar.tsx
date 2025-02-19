@@ -60,7 +60,7 @@ export default function Navbar() {
                   Log in
                 </Link>
                 <Link
-                  href="/talk-to-us"
+                  href="/register"
                   className="flex-row items-center group transition-colors duration-150 ease-in-out gap-1 flex font-semibold outline-none focus:outline-none whitespace-nowrap !text-nowrap rounded-sm bg-[#69b894] text-[#fff] py-2 px-4 text-base"
                 >
                   Talk to Us
@@ -102,7 +102,7 @@ export default function Navbar() {
                       Log in
                     </Link>
                     <Link
-                      href="/talk-to-us"
+                      href="/register"
                       className="flex items-center justify-center gap-1 bg-[#69b894] text-white py-2 px-4 rounded-sm text-lg font-semibold hover:bg-[#5ca883]"
                       onClick={() => setIsOpen(false)}
                     >

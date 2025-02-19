@@ -28,7 +28,7 @@ export default function HeroSection() {
                     </div>
                     <div className="flex flex-wrap gap-6">
                       <Link
-                        href="/talk-to-us"
+                        href="/register"
                         className=" flex-row items-center group transition-colors duration-150 ease-in-out gap-1 flex font-semibold outline-none focus:outline-none whitespace-nowrap !text-nowrap rounded-sm bg-[#69b894] text-[#222220] py-2 px-4 text-base"
                       >
                         Talk to Us
@@ -37,7 +37,7 @@ export default function HeroSection() {
                         </span>
                       </Link>
                       <Link
-                        href="/talk-to-us"
+                        href="/register"
                         className=" flex-row items-center group transition-colors duration-150 ease-in-out gap-1 flex font-semibold outline-none focus:outline-none whitespace-nowrap !text-nowrap rounded-sm border border-[#ffffff4d] text-[#69b894] py-2 px-4 text-base"
                       >
                         See Samples
