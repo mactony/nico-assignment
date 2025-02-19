@@ -33,8 +33,8 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <section className="container mx-auto py-24 bg-muted/50">
-      <div className="text-center mb-12">
+    <section className="mx-auto w-full max-w-7xl px-4 py-2 md:px-6 lg:pb-5 lg:pt-10 bg-black/10">
+      <div className="mb-12">
         <h2 className="text-3xl font-bold mb-4">What Our Clients Say</h2>
         <p className="text-muted-foreground">
           Read about the experiences of our satisfied clients

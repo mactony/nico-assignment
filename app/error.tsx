@@ -15,12 +15,16 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="container flex h-screen flex-col items-center justify-center space-y-4">
-      <h1 className="text-4xl font-bold">Something went wrong!</h1>
-      <p className="text-muted-foreground">
-        An error occurred. Please try again.
-      </p>
-      <Button onClick={() => reset()}>Try again</Button>
+    <div className="relative bg-white">
+      <section className="relative max-w-[1440px] mx-auto px-5 md:px-6 lg:px-12 md:pb-16 lg:pb-20 border-[#00000021] xl:border-x">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-4xl font-bold">Something went wrong!</h1>
+          <p className="text-muted-foreground">
+            An error occurred. Please try again.
+          </p>
+          <Button onClick={() => reset()}>Try again</Button>
+        </div>
+      </section>
     </div>
   );
 }

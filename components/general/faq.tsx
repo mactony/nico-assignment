@@ -30,22 +30,42 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section className="container mx-auto py-24">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
-        <p className="text-muted-foreground">
-          Find answers to common questions about our services
-        </p>
-      </div>
-      <div className="max-w-3xl mx-auto">
-        <Accordion type="single" collapsible className="w-full">
-          {faqs.map((faq, index) => (
-            <AccordionItem key={index} value={`item-${index}`}>
-              <AccordionTrigger>{faq.question}</AccordionTrigger>
-              <AccordionContent>{faq.answer}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+    <section className="relative bg-white">
+      <div className="relative max-w-[1440px] mx-auto px-5 md:px-6 lg:px-12 pb-6 md:pb-8 lg:pb-10 pt-12 md:pt-16 lg:pt-20 border-[#00000021] xl:border-x">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 gap-x-6 md:grid-cols-4 xl:grid-cols-12 lg:gap-x-12 items-start gap-y-10 md:gap-y-12">
+            <div className="col-span-2 md:col-span-4 lg:col-span-6">
+              <div className="grid grid-flow-row gap-y-8">
+                <div className="grid grid-flow-row gap-y-5">
+                  <div className="grid-grid-flow-row gap-y-2">
+                    <h2 className="text-[#151515] text-4xl font-semibold">
+                      Frequently Asked Questions
+                    </h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-span-2 md:col-span-4 lg:col-span-6">
+              <div className="grid grid-flow-row">
+                {faqs.map((faq) => (
+                  <Accordion type="single" collapsible key={faq.answer}>
+                    <AccordionItem
+                      value="item-1"
+                      className="py-2 grid grid-flow-row border-b border-[#00000021]"
+                    >
+                      <AccordionTrigger className="text-[#00000085] font-semibold text-base">
+                        {faq.question}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-[#000c] text-base">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
