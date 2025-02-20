@@ -130,7 +130,7 @@ export default function Footer() {
             </div>
             <div className="col-start-1 col-end-2 row-start-2 row-end-3">
               <p className="flex-row items-center group transition-colors duration-150 ease-in-out gap-2 cursor transition-150 text-[#ffffff85] text-[14px] -mx-1 flex rounded-md px-1 py-1 whitespace-nowrap">
-                Made with <Heart className="size-3 text-red-400" /> in Nairobi
+                Made with <Heart className="size-3 text-red-400" />
               </p>
             </div>
             <div className="col-start-1 col-end-3 row-start-3 row-end-4 mt-1 md:col-start-2 md:row-start-2 md:mt-0 md:justify-self-end lg:mr-2.5 lg:ml-auto">

@@ -24,7 +24,7 @@ export default function CTA() {
                 </div>
                 <div className="flex flex-wrap gap-6">
                   <Link
-                    href="/register"
+                    href="/contact"
                     className=" flex-row items-center group transition-colors duration-150 ease-in-out gap-1 flex font-semibold outline-none focus:outline-none whitespace-nowrap !text-nowrap rounded-sm bg-[#69b894] text-[#222220] py-2 px-4 text-base"
                   >
                     Talk to Us

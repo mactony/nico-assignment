@@ -1,8 +1,7 @@
 "use client";
-
 import * as React from "react";
 import Link from "next/link";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -16,28 +15,44 @@ import {
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-
-const formSchema = z.object({
-  emailOrUsername: z.string().min(1, "Email or username is required"),
-  password: z.string().min(1, "Password is required"),
-});
-
-type FormValues = z.infer<typeof formSchema>;
+import { SignInSchema, SignInSchemaType } from "@/lib/schemas";
+import { userSignIn } from "@/actions/auth";
+import { toast } from "sonner";
+import GoogleButton from "./GoogleButton";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = React.useState(false);
+  const [isPending, startTransition] = React.useTransition();
+  const router = useRouter();
 
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<SignInSchemaType>({
+    resolver: zodResolver(SignInSchema),
     defaultValues: {
-      emailOrUsername: "",
+      email: "",
       password: "",
     },
   });
 
-  function onSubmit(values: FormValues) {
-    console.log(values);
+  async function onSubmit(values: SignInSchemaType) {
+    startTransition(async () => {
+      try {
+        const res = await userSignIn(values);
+        if (res && "error" in res) {
+          toast.error(res.error);
+          return;
+        }
+
+        // Show success message
+        toast.success("Successfully logged in!");
+
+        // Redirect to dashboard
+        router.push("/dashboard");
+        router.refresh();
+      } catch (error) {
+        toast.error("Something went wrong. Please try again.");
+      }
+    });
   }
 
   return (
@@ -55,18 +70,24 @@ export default function LoginForm() {
 
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit((values) => {
+              startTransition(() => {
+                onSubmit(values);
+              });
+            })}
             className="mt-8 space-y-4"
           >
             <FormField
               control={form.control}
-              name="emailOrUsername"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email or username</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Enter your email or username"
+                      placeholder="name@example.com"
+                      type="email"
+                      disabled={isPending}
                       {...field}
                     />
                   </FormControl>
@@ -95,6 +116,7 @@ export default function LoginForm() {
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your password"
                         {...field}
+                        disabled={isPending}
                         className=""
                       />
                       <Button
@@ -119,8 +141,10 @@ export default function LoginForm() {
 
             <Button
               type="submit"
+              disabled={isPending}
               className="w-full bg-blue-500 hover:bg-blue-600"
             >
+              {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
               Log In
             </Button>
 
@@ -135,9 +159,7 @@ export default function LoginForm() {
               </div>
             </div>
 
-            <Button variant="outline" className="w-full" type="button">
-              Continue with Google →
-            </Button>
+            <GoogleButton />
           </form>
         </Form>
       </Card>

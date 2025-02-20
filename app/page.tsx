@@ -11,9 +11,9 @@ export default function Home() {
       <HeroSection />
       <UniversityMarquee />
       <Services />
-      <FAQ />
       <CTA />
       <SellPoint />
+      <FAQ />
       {/*
       <Testimonials />
       */}
