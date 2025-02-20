@@ -23,7 +23,9 @@ export const SignUpSchema = z
     terms: z
       .boolean()
 
-      .refine((val) => val === true, { message: "You must accept the terms" }),
+      .refine((val) => val === true, {
+        message: "You must accept the terms conditions",
+      }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
