@@ -95,8 +95,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return session;
     },
   },
-  //   pages: {
-  //     error: "/auth/error",
-  //   },
+  pages: {
+    error: "/error",
+  },
   debug: process.env.NODE_ENV === "development",
 });
