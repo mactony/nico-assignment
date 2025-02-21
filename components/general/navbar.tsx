@@ -38,13 +38,13 @@ const navigationLinks = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
 
   const pathname = usePathname();
 
   useEffect(() => {
-    fetch("/api/auth/session", { cache: "no-store" });
-  }, []);
+    update(); // Force session refresh when Navbar mounts
+  }, [update]);
 
   const handleSignOut = () => {
     signOut({ callbackUrl: "/" });
