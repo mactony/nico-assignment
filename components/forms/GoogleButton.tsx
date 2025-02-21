@@ -1,14 +1,21 @@
 "use client";
 
-import { googleSignIn } from "@/actions/auth";
+import { signIn } from "next-auth/react";
 import { Button } from "../ui/button";
+import { useSearchParams } from "next/navigation";
 
 export default function GoogleButton() {
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") || "/dashboard";
+  const handleSignIn = () => {
+    signIn("google", { redirectTo });
+  };
+
   return (
     <Button
       variant="outline"
-      onClick={() => googleSignIn()}
       type="button"
+      onClick={handleSignIn}
       className="w-full relative flex items-center justify-center gap-2"
     >
       <svg className="h-5 w-5" aria-hidden="true" viewBox="0 0 24 24">

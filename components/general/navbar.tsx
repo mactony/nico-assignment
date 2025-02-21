@@ -2,7 +2,7 @@
 
 import { ChevronRight, LogOut, Menu, Settings, User } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -38,6 +38,10 @@ const navigationLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
+
+  useEffect(() => {
+    fetch("/api/auth/session", { cache: "no-store" });
+  }, []);
 
   const handleSignOut = () => {
     signOut({ callbackUrl: "/" });
@@ -140,7 +144,9 @@ export default function Navbar() {
                   </DropdownMenu>
                 ) : (
                   <Link
-                    href="/login"
+                    href={`/login?redirectTo=${encodeURIComponent(
+                      window.location.pathname
+                    )}`}
                     className="flex-row items-center group transition-colors duration-150 ease-in-out gap-2 flex font-medium outline-none focus:outline-none whitespace-nowrap !text-nowrap rounded-sm text-color-action text-semibold header-secondary-cta-link !text-[#151515]"
                   >
                     Log in
@@ -211,7 +217,9 @@ export default function Navbar() {
                       </>
                     ) : (
                       <Link
-                        href="/login"
+                        href={`/login?redirectTo=${encodeURIComponent(
+                          window.location.pathname
+                        )}`}
                         className="text-lg font-medium text-[#151515] hover:text-[#69b894]"
                         onClick={() => setIsOpen(false)}
                       >

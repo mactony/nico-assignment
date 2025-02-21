@@ -15,15 +15,15 @@ model User {
   emailVerified DateTime? @map("email_verified")
   image         String?
   role          UserRole  @default(USER)
-  bio           String?   @db.Text
+  bio           String?
   expertise     String[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  sessions      Session[]
   orders        Order[]
   posts         Post[]
   services      Service[]
+  accounts      Account[]
+  sessions      Session[]
 
   @@map("users")
 }
@@ -35,11 +35,11 @@ model Account {
   provider          String
   providerAccountId String   @map("provider_account_id")
   token_type        String?
-  refresh_token     String?  @db.Text
-  access_token      String?  @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   scope             String?
-  id_token          String?  @db.Text
+  id_token          String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -51,12 +51,12 @@ model Account {
 model Session {
   id           String   @id @default(cuid())
   userId       String?  @map("user_id")
-  sessionToken String   @unique @map("session_token") @db.Text
-  accessToken  String?  @map("access_token") @db.Text
+  sessionToken String   @unique @map("session_token")
+  accessToken  String?  @map("access_token")
   expires      DateTime
-  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
 }
@@ -75,17 +75,17 @@ model VerificationToken {
 model Service {
   id          String          @id @default(cuid())
   title       String
-  description String          @db.Text
+  description String
   price       Float
   category    ServiceCategory
   subCategory String?
-  duration    Int? // Duration in minutes
+  duration    Int?
   level       AcademicLevel?
-  userId      String // Service provider
-  user        User            @relation(fields: [userId], references: [id])
-  orders      Order[]
+  userId      String
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
+  orders      Order[]
+  user        User            @relation(fields: [userId], references: [id])
 }
 
 model Order {
@@ -95,26 +95,26 @@ model Order {
   status          OrderStatus
   deadlineDate    DateTime
   totalPrice      Float
-  additionalNotes String?     @db.Text
-  user            User        @relation(fields: [userId], references: [id])
-  service         Service     @relation(fields: [serviceId], references: [id])
+  additionalNotes String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+  service         Service     @relation(fields: [serviceId], references: [id])
+  user            User        @relation(fields: [userId], references: [id])
 }
 
 model Post {
   id        String       @id @default(cuid())
   title     String
-  content   String       @db.Text
+  content   String
   slug      String       @unique
   published Boolean      @default(false)
   userId    String
-  user      User         @relation(fields: [userId], references: [id])
   category  PostCategory
   tags      String[]
   views     Int          @default(0)
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
+  user      User         @relation(fields: [userId], references: [id])
 }
 
 enum UserRole {

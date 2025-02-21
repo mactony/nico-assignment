@@ -1,11 +1,19 @@
+import { auth } from "@/auth";
 import RegisterForm from "@/components/forms/RegisterForm";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Register - Nick's Tutoring Hub",
   description: "Create an account to access our academic writing services.",
 };
 
-export default function RegisterPage() {
+export default async function RegisterPage() {
+  const session = await auth(); // Get the session on the server
+
+  // Redirect authenticated users
+  if (session) {
+    redirect("/dashboard");
+  }
   return (
     <>
       <div className="flex min-h-screen w-full items-center justify-center p-4">

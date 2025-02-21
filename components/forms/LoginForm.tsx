@@ -19,12 +19,17 @@ import { SignInSchema, SignInSchemaType } from "@/lib/schemas";
 import { userSignIn } from "@/actions/auth";
 import { toast } from "sonner";
 import GoogleButton from "./GoogleButton";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [isPending, startTransition] = React.useTransition();
+  const searchParams = useSearchParams();
   const router = useRouter();
+  let redirectToPage = searchParams.get("redirectTo") ?? "/dashboard";
+  if (redirectToPage === "/login") {
+    redirectToPage = "/dashboard";
+  }
 
   const form = useForm<SignInSchemaType>({
     resolver: zodResolver(SignInSchema),
@@ -43,18 +48,18 @@ export default function LoginForm() {
           return;
         }
 
-        // Show success message
+        // Success message
         toast.success("Successfully logged in!");
 
-        // Redirect to dashboard
-        router.push("/dashboard");
+        // Redirect to the intended page or dashboard
+        router.push(redirectToPage);
         router.refresh();
+        window.location.reload();
       } catch (error) {
         toast.error("Something went wrong. Please try again.");
       }
     });
   }
-
   return (
     <div className="flex w-full items-center justify-center p-4">
       <Card className="w-full max-w-[688px] p-8">
