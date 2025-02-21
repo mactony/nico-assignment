@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SignInSchema, SignInSchemaType } from "@/lib/schemas";
+import { SignInSchema, type SignInSchemaType } from "@/lib/schemas";
 import { userSignIn } from "@/actions/auth";
 import { toast } from "sonner";
 import GoogleButton from "./GoogleButton";
@@ -31,6 +31,9 @@ export default function LoginForm() {
   if (redirectToPage === "/login") {
     redirectToPage = "/dashboard";
   }
+
+  // Check if the user just registered
+  const isNewUser = searchParams.get("newUser") === "true";
 
   const form = useForm<SignInSchemaType>({
     resolver: zodResolver(SignInSchema),
@@ -60,9 +63,18 @@ export default function LoginForm() {
       }
     });
   }
+
   return (
     <div className="flex w-full items-center justify-center p-4">
       <Card className="w-full max-w-[688px] p-8">
+        {isNewUser && (
+          <div className="mb-6 rounded-md bg-green-100 p-4 text-green-700">
+            <p className="text-center font-semibold">
+              Welcome! Your account has been created successfully. Please log in
+              to continue.
+            </p>
+          </div>
+        )}
         <div className="flex items-center justify-between flex-col gap-y-4 lg:flex-row">
           <h1 className="text-2xl font-semibold">Log in to Nicks Pro</h1>
           <div className="text-sm text-muted-foreground">

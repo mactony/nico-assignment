@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SignUpSchema, SignUpSchemaType } from "@/lib/schemas";
+import { SignUpSchema, type SignUpSchemaType } from "@/lib/schemas";
 import { userSignUp } from "@/actions/auth";
 import { toast } from "sonner";
 import GoogleButton from "./GoogleButton";
@@ -62,9 +62,8 @@ export default function RegisterForm() {
         // Show success message
         toast.success("Account created successfully!");
 
-        // Redirect to dashboard
-        router.push("/dashboard");
-        router.refresh();
+        // Redirect to login page with newUser query parameter
+        router.push("/login?newUser=true");
       } catch (error) {
         toast.error("Something went wrong. Please try again.");
       }

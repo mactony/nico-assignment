@@ -1,16 +1,17 @@
-import NextAuth from "next-auth";
+import NextAuth, { User } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import github from "next-auth/providers/github";
 import google from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { prisma } from "./lib/prisma";
-import { SignInSchema } from "./lib/schemas";
+import { prisma } from "@/lib/prisma";
+import { SignInSchema } from "@/lib/schemas";
 import bcrypt from "bcryptjs";
-import { UserRole } from "@prisma/client";
+import type { UserRole } from "@prisma/client";
+import type { Adapter } from "next-auth/adapters";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     github,
     google,
@@ -56,12 +57,36 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ],
 
   callbacks: {
-    // async jwt({ token, user }) {
-    //   if (user) {
-    //     token.role = user.Role;
-    //   }
-    //   return token;
-    // },
+    async signIn({ user, account }) {
+      if (account?.provider === "credentials") {
+        return true;
+      }
+
+      if (user.email) {
+        const existingUser = await prisma.user.findUnique({
+          where: { email: user.email },
+          include: { accounts: true },
+        });
+
+        if (existingUser) {
+          if (
+            !existingUser.accounts.some(
+              (acc) => acc.provider === account?.provider
+            )
+          ) {
+            return false;
+          }
+        }
+      }
+
+      return true;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = (user as User).role;
+      }
+      return token;
+    },
     async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.sub!;
@@ -69,6 +94,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return session;
     },
+  },
+  pages: {
+    error: "/auth/error",
   },
   debug: process.env.NODE_ENV === "development",
 });
