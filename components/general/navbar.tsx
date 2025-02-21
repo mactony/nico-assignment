@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { usePathname } from "next/navigation";
 
 const navigationLinks = [
   {
@@ -38,6 +39,8 @@ const navigationLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
+
+  const pathname = usePathname();
 
   useEffect(() => {
     fetch("/api/auth/session", { cache: "no-store" });
@@ -144,9 +147,7 @@ export default function Navbar() {
                   </DropdownMenu>
                 ) : (
                   <Link
-                    href={`/login?redirectTo=${encodeURIComponent(
-                      window.location.pathname
-                    )}`}
+                    href={`/login?redirectTo=${encodeURIComponent(pathname)}`}
                     className="flex-row items-center group transition-colors duration-150 ease-in-out gap-2 flex font-medium outline-none focus:outline-none whitespace-nowrap !text-nowrap rounded-sm text-color-action text-semibold header-secondary-cta-link !text-[#151515]"
                   >
                     Log in
@@ -218,7 +219,7 @@ export default function Navbar() {
                     ) : (
                       <Link
                         href={`/login?redirectTo=${encodeURIComponent(
-                          window.location.pathname
+                          pathname
                         )}`}
                         className="text-lg font-medium text-[#151515] hover:text-[#69b894]"
                         onClick={() => setIsOpen(false)}

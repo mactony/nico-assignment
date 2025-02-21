@@ -19,12 +19,13 @@ import { SignInSchema, SignInSchemaType } from "@/lib/schemas";
 import { userSignIn } from "@/actions/auth";
 import { toast } from "sonner";
 import GoogleButton from "./GoogleButton";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [isPending, startTransition] = React.useTransition();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const router = useRouter();
   let redirectToPage = searchParams.get("redirectTo") ?? "/dashboard";
   if (redirectToPage === "/login") {
@@ -54,7 +55,6 @@ export default function LoginForm() {
         // Redirect to the intended page or dashboard
         router.push(redirectToPage);
         router.refresh();
-        window.location.reload();
       } catch (error) {
         toast.error("Something went wrong. Please try again.");
       }
