@@ -35,6 +35,15 @@ export default function LoginForm() {
   // Check if the user just registered
   const isNewUser = searchParams.get("newUser") === "true";
 
+  // Check for authentication errors
+  const error = searchParams.get("error");
+  const errorMessage =
+    error === "OAuthAccountNotLinked"
+      ? "You already have an account with a different sign-in method for this email. Please sign in using your existing method."
+      : error
+      ? "An error occurred during authentication. Please try again."
+      : null;
+
   const form = useForm<SignInSchemaType>({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
@@ -73,6 +82,11 @@ export default function LoginForm() {
               Welcome! Your account has been created successfully. Please log in
               to continue.
             </p>
+          </div>
+        )}
+        {errorMessage && (
+          <div className="mb-6 rounded-md bg-red-100 p-4 text-red-700">
+            <p className="text-center font-semibold">{errorMessage}</p>
           </div>
         )}
         <div className="flex items-center justify-between flex-col gap-y-4 lg:flex-row">
