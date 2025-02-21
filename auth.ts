@@ -36,7 +36,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         });
 
         if (!user) {
-          throw new Error("No user found");
+          throw new Error("No user found. Please sign up");
         }
 
         const isValid = bcrypt.compareSync(password, user.password!);
